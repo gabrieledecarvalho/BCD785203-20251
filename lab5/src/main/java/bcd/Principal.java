@@ -1,6 +1,9 @@
 package bcd;
 
 import exemplo01.ExemploMuitoSimples;
+import exemplo02.PadroesDeProjeto;
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -9,8 +12,10 @@ public class Principal {
     private final String[] EXEMPLOS = {
             "\n..:: Pequenos exemplos com Java, SQLite e MySQL ::..\n",
             "1 - Exemplo 01",
+            "2 - Exemplo 02 - uso de padrões de projeto",
             "6 - Sair do programa"
     };
+
 
     private final String[] MENU_EX1 = {
             "\n...:: Exemplo com SQLite ::...\n",
@@ -37,6 +42,9 @@ public class Principal {
             switch (opcao) {
                 case 1:
                     p.exemplo01();
+                    break;
+                case 2:
+                    p.exemplo02();
                     break;
             }
         } while (opcao != 6);
@@ -151,4 +159,11 @@ public class Principal {
             System.err.println("ERRO: Dados fornecidos estão em um formato diferente do esperado.");
         }
     }
+
+    // Executa o exemplo02, que demonstra o uso de padrões de projeto
+    private void exemplo02() throws SQLException {
+        PadroesDeProjeto app = new PadroesDeProjeto();
+        System.out.println(app.listarPessoas());
+    }
+
 }
