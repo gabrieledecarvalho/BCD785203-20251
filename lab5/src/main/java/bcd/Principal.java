@@ -2,6 +2,7 @@ package bcd;
 
 import exemplo01.ExemploMuitoSimples;
 import exemplo02.PadroesDeProjeto;
+import exemplo03.UsandoPreparedStmt;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.InputMismatchException;
@@ -13,6 +14,7 @@ public class Principal {
             "\n..:: Pequenos exemplos com Java, SQLite e MySQL ::..\n",
             "1 - Exemplo 01",
             "2 - Exemplo 02 - uso de padrões de projeto",
+            "3 - Exemplo 03 - uso de PreparedStatement",
             "6 - Sair do programa"
     };
 
@@ -25,6 +27,15 @@ public class Principal {
             "4 - Listar dados de uma pessoa",
             "5 - Listar todas pessoas",
             "6 - Voltar ao menu anterior"
+    };
+
+    // Apresenta as opções disponíveis no contexto do uso de PreparedStatement
+    private final String[] MENU_EX3 = {
+            "\n...:: Exemplo com PreparedStatement ::...\n",
+            "1 - Listar todas pessoas",
+            "2 - Listar dados de uma pessoa",
+            "3 - Atualizar email de uma pessoa",
+            "4 - Voltar ao menu anterior"
     };
 
     // Permite a leitura de dados digitados pelo usuário no terminal
@@ -45,6 +56,9 @@ public class Principal {
                     break;
                 case 2:
                     p.exemplo02();
+                    break;
+                case 3:
+                    p.exemplo03();
                     break;
             }
         } while (opcao != 6);
@@ -166,4 +180,45 @@ public class Principal {
         System.out.println(app.listarPessoas());
     }
 
+    // Controla o menu e a execução do exemplo 03
+    private void exemplo03() throws SQLException {
+        int opcao;
+
+        // Cria uma instância de UsandoPreparedStmt para chamar os métodos de acesso ao banco
+        UsandoPreparedStmt app = new UsandoPreparedStmt();
+        try {
+            do {
+                opcao = this.menu(this.MENU_EX3);
+                switch (opcao) {
+                    // Listar todos os registros da tabela
+                    case 1:
+                        System.out.println(app.listarPessoas());
+                        break;
+
+                    //Consultar uma pessoa específica por ID
+                    case 2:
+                        System.out.print("Informe o ID da pessoa: ");
+                        int idPessoa = teclado.nextInt();
+                        System.out.println(app.listarDadosDeUmaPessoa(idPessoa));
+                        break;
+
+                    // Atualizar o email de uma pessoa de forma segura
+                    case 3:
+                        System.out.println(app.listarPessoas());
+                        System.out.print("Informe o ID da pessoa que irá alterar o email: ");
+                        idPessoa = teclado.nextInt();
+                        System.out.print("Entre com o email: ");
+                        String email = this.teclado.next();
+                        if (app.atualizaEmail(idPessoa, email) > 0) {
+                            System.out.println("Email atualizado com sucesso");
+                        } else {
+                            System.out.println("Não foi possível atualizar o email.");
+                        }
+                        break;
+                }
+            } while (opcao != 4);
+        } catch (InputMismatchException e) {
+            System.err.println("ERRO: Dados fornecidos estão em um formato diferente do esperado.");
+        }
+    }
 }

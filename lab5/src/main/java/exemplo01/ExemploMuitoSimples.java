@@ -133,6 +133,7 @@ public class ExemploMuitoSimples {
 
     // Apaga a tabela Pessoa se existir e cria uma nova com um registro inicial.
     public boolean criaBancoDeDados() throws Exception {
+        System.out.println("Banco de dados será criado em: " + new java.io.File("lab01.sqlite").getAbsolutePath());
         try (Connection conexao = DriverManager.getConnection(DB_URI, this.sqLiteConfig.toProperties());
              Statement statement = conexao.createStatement();) {
             statement.executeUpdate("drop table if exists Pessoa");
