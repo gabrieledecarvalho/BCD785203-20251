@@ -16,11 +16,11 @@ application {
 }
 
 run {
-    standartInput = System.in
+    standardInput = System.in
 }
 
 tasks.withType(JavaExec) {
-    standartInput = System.in
+    standardInput = System.in
 }
 
 jar {
