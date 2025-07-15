@@ -3,6 +3,8 @@ package bcd;
 import exemplo01.ExemploMuitoSimples;
 import exemplo02.PadroesDeProjeto;
 import exemplo03.UsandoPreparedStmt;
+import exemplo04.UsandoDAO;
+import exemplo04.entities.Pessoa;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.InputMismatchException;
@@ -13,8 +15,9 @@ public class Principal {
     private final String[] EXEMPLOS = {
             "\n..:: Pequenos exemplos com Java, SQLite e MySQL ::..\n",
             "1 - Exemplo 01",
-            "2 - Exemplo 02 - uso de padrões de projeto",
+            "2 - Exemplo 02 - uso de padroes de projeto",
             "3 - Exemplo 03 - uso de PreparedStatement",
+            "4 - Exemplo 04 - uso do Data Access Object (DAO)",
             "6 - Sair do programa"
     };
 
@@ -36,6 +39,13 @@ public class Principal {
             "2 - Listar dados de uma pessoa",
             "3 - Atualizar email de uma pessoa",
             "4 - Voltar ao menu anterior"
+    };
+
+    private final String[] MENU_EX4 = {
+            "\n...:: Exemplo com Data Access Object (DAO) ::...\n",
+            "1 - Cadastrar pessoa",
+            "2 - Listar todas pessoas",
+            "3 - Voltar ao menu anterior"
     };
 
     // Permite a leitura de dados digitados pelo usuário no terminal
@@ -60,6 +70,9 @@ public class Principal {
                 case 3:
                     p.exemplo03();
                     break;
+                case 4:
+                    p.exemplo04();
+                    break;
             }
         } while (opcao != 6);
     }
@@ -72,7 +85,7 @@ public class Principal {
                 System.out.println(linha);
             }
             try {
-                System.out.print("Entre com uma opção: ");
+                System.out.print("Entre com uma opcaoo: ");
                 opcao = teclado.nextInt();
             } catch (InputMismatchException e) {
                 System.err.println("Erro. Informe um número inteiro.");
@@ -150,7 +163,7 @@ public class Principal {
                         idPessoa = teclado.nextInt();
                         resultado = app.excluirPessoa(idPessoa);
                         if (resultado > 0) {
-                            System.out.println("\nPessoa excluída com sucesso\n");
+                            System.out.println("\nPessoa excluida com sucesso\n");
                         } else {
                             System.out.println("\nHouve algum problema e não foi possível excluir");
                         }
@@ -205,18 +218,60 @@ public class Principal {
                     // Atualizar o email de uma pessoa de forma segura
                     case 3:
                         System.out.println(app.listarPessoas());
-                        System.out.print("Informe o ID da pessoa que irá alterar o email: ");
+                        System.out.print("Informe o ID da pessoa que ira alterar o email: ");
                         idPessoa = teclado.nextInt();
                         System.out.print("Entre com o email: ");
                         String email = this.teclado.next();
                         if (app.atualizaEmail(idPessoa, email) > 0) {
                             System.out.println("Email atualizado com sucesso");
                         } else {
-                            System.out.println("Não foi possível atualizar o email.");
+                            System.out.println("Nao foi possivel atualizar o email.");
                         }
                         break;
                 }
             } while (opcao != 4);
+        } catch (InputMismatchException e) {
+            System.err.println("ERRO: Dados fornecidos estao em um formato diferente do esperado.");
+        }
+    }
+
+    private void exemplo04() throws SQLException {
+        int opcao;
+        UsandoDAO app = new UsandoDAO(); // Instância do DAO para manipular dados
+        try {
+            do {
+                opcao = this.menu(this.MENU_EX4); // Exibe o menu específico do exemplo 04
+                switch (opcao) {
+                    case 1: // Cadastrar pessoa
+                        try {
+                            teclado.nextLine(); // Limpa o buffer do teclado
+                            // Entrada de dados do usuário
+                            System.out.print("Entre com o nome: ");
+                            String nome = teclado.nextLine();
+                            System.out.print("Entre com o email: ");
+                            String email = teclado.nextLine();
+                            System.out.print("Entre com o peso: ");
+                            double peso = teclado.nextDouble();
+                            System.out.print("Entre com a altura: ");
+                            int altura = teclado.nextInt();
+                            // Criação do objeto Pessoa com os dados informados
+                            Pessoa p = new Pessoa(nome, peso, altura, email);
+                            // Chamada do método para cadastrar no banco via DAO
+                            boolean resultado = app.cadastrarPessoa(p);
+                            if (resultado) {
+                                System.out.println("\nPessoa cadastrada com sucesso.\n");
+                            } else {
+                                System.out.println("\nHouve algum problema e nao foi possivel cadastrar");
+                            }
+                        } catch (Exception e) {
+                            System.err.println("\nErro com os dados fornecidos. Tente novamente.\n");
+                        }
+                        break;
+                    case 2: // Listar todas as pessoas cadastradas
+                        System.out.println(app.listarPessoas());
+                        break;
+                }
+            } while (opcao != 3); // Voltar ao menu anterior
         } catch (InputMismatchException e) {
             System.err.println("ERRO: Dados fornecidos estão em um formato diferente do esperado.");
         }
