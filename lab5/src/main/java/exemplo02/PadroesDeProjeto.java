@@ -8,6 +8,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 /**
+ * Demonstrar como utilizar o padrão de projeto Factory para acessar o banco de dados de forma segura e
+ * organizada, utilizando Java e SQLite.
+ *
  * Classe que implementa padrões de projeto para manipulação de dados de pessoas.
  *
  * Esta classe tem como objetivo demonstrar o uso de boas práticas na manipulação de banco de dados utilizando

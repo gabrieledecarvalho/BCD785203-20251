@@ -4,6 +4,12 @@ package exemplo01;
 import java.sql.*;
 import org.sqlite.SQLiteConfig;
 
+
+/**
+* Exemplo 01
+* Conceitos básicos para manipulação de banco de dados SQLite usando Java e JDBC 4
+* Realizar consultas, inserções, alterações e remoções em um banco SQLite
+ **/
 public class ExemploMuitoSimples {
     // Localização do banco de dados SQLite
     private String DB_URI = "jdbc:sqlite:lab01.sqlite";
