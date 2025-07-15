@@ -1,0 +1,46 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'com.github.johnrengelman.shadow' version '8.1.1'
+}
+
+group = 'com.aluno'
+version = '1.0'
+
+repositories {
+    mavenCentral()
+}
+
+application {
+    mainClass = 'bcd.Principal'
+}
+
+run {
+    standartInput = System.in
+}
+
+tasks.withType(JavaExec) {
+    standartInput = System.in
+}
+
+jar {
+    manifest {
+        attributes "Main-Class": "bcd.Principal"
+    }
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.10.0'
+
+    implementation 'org.xerial:sqlite-jdbc:3.42.0.0'
+    implementation 'mysql:mysql-connector-java:8.0.33'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+tasks.shadowJar {
+    mergeServiceFiles()
+}
